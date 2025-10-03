@@ -3,43 +3,14 @@
   "nodes": [
     {
       "parameters": {},
-      "id": "5b2030c6-8f99-49fe-98e7-bbf591525b94",
+      "id": "3be36cfc-26d2-4f52-802f-b7646af4504e",
       "name": "Cron Trigger",
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1,
       "position": [
-        -416,
-        32
+        -304,
+        48
       ]
-    },
-    {
-      "parameters": {
-        "operation": "Run actor and get dataset",
-        "actorSource": "store",
-        "actorId": {
-          "__rl": true,
-          "value": "0FXVyOXXEmdGcV88a",
-          "mode": "list",
-          "cachedResultName": "TikTok Profile Scraper (clockworks/tiktok-profile-scraper)",
-          "cachedResultUrl": "https://console.apify.com/actors/0FXVyOXXEmdGcV88a/input"
-        },
-        "customBody": "={\n    \"excludePinnedPosts\": false,\n    \"profiles\": [\n        \"{{$json.username}}\"\n    ],\n    \"shouldDownloadAvatars\": false,\n    \"shouldDownloadCovers\": false,\n    \"shouldDownloadSlideshowImages\": false,\n    \"shouldDownloadSubtitles\": false,\n    \"shouldDownloadVideos\": false\n}",
-        "timeout": {}
-      },
-      "type": "@apify/n8n-nodes-apify.apify",
-      "typeVersion": 1,
-      "position": [
-        0,
-        32
-      ],
-      "id": "e63fe97f-6670-44f2-a71d-407a58c97afa",
-      "name": "Run an Actor and get dataset",
-      "credentials": {
-        "apifyApi": {
-          "id": "fPGcO8PisAdwByJm",
-          "name": "Apify account"
-        }
-      }
     },
     {
       "parameters": {
@@ -54,25 +25,25 @@
             {
               "id": "9e1fa772-bf14-4597-ab0a-1ba01a2b56f1",
               "name": "Bio",
-              "value": "={{ $json.authorMeta.signature }}",
+              "value": "={{ $json.profile.bio }}",
               "type": "string"
             },
             {
               "id": "f884a22c-0ae3-4b4f-95a0-368793a3cccb",
               "name": "Following",
-              "value": "={{ $json.authorMeta.following }}",
+              "value": "={{ $json.profile.following }}",
               "type": "string"
             },
             {
               "id": "ecad69d4-25ff-4c7f-90e8-6b6f44e7eb10",
               "name": "Fana",
-              "value": "={{ $json.authorMeta.fans }}",
+              "value": "={{ $json.profile.followers }}",
               "type": "string"
             },
             {
               "id": "9491ed8c-f0d6-40ff-8d2d-a8bf4a7df322",
               "name": "Hearts",
-              "value": "={{ $json.authorMeta.heart }}",
+              "value": "={{ $json.profile.likes }}",
               "type": "string"
             },
             {
@@ -88,10 +59,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        272,
-        144
+        592,
+        160
       ],
-      "id": "6a9a826a-0e05-4c42-a064-ce56a5fe43f7",
+      "id": "5d7a71a0-e0f3-4828-95df-65de860ccc41",
       "name": "Edit Fields"
     },
     {
@@ -103,10 +74,10 @@
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
-        480,
-        144
+        800,
+        160
       ],
-      "id": "c3c008b4-f5ee-427f-9e9f-60eee0e692f7",
+      "id": "90a7f393-2f6b-4512-92c3-a65fd903686c",
       "name": "Remove Duplicates"
     },
     {
@@ -201,15 +172,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        688,
-        144
+        1008,
+        160
       ],
-      "id": "c9b2fffb-7553-43f7-abc7-1d020a6c4fe1",
+      "id": "a1185c5f-7d06-4cfa-b102-b8bf2bff4a94",
       "name": "Append row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "OgCXWRjMaFRpbA9d",
-          "name": "Google Sheets account 2"
+          "id": "mSvz42GEjUXe0RdR",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -225,7 +196,7 @@
           "conditions": [
             {
               "id": "f5d60b6c-8ffc-447f-ae88-f746246e7fd5",
-              "leftValue": "={{ $json.playCount }}",
+              "leftValue": "={{ $json.posts.views }}",
               "rightValue": 0,
               "operator": {
                 "type": "number",
@@ -233,17 +204,8 @@
               }
             },
             {
-              "id": "9b4f38b7-00d8-43d7-9f81-bd5b04b09568",
-              "leftValue": "={{ $json.commentCount }}",
-              "rightValue": 0,
-              "operator": {
-                "type": "number",
-                "operation": "gte"
-              }
-            },
-            {
               "id": "f6b89b61-7a64-4c4d-adf9-c196c403a54f",
-              "leftValue": "={{ $json.shareCount }}",
+              "leftValue": "={{ $json.posts.shares }}",
               "rightValue": 0,
               "operator": {
                 "type": "number",
@@ -258,10 +220,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        256,
-        -96
+        624,
+        -144
       ],
-      "id": "5c0dfc10-3653-4f81-81a5-ca104fb989b2",
+      "id": "98b09f3d-f351-4e66-b742-df737dafe8e3",
       "name": "Filter"
     },
     {
@@ -277,31 +239,43 @@
             {
               "id": "28554e9c-678d-478a-b368-f2a378f7b37a",
               "name": "TikTok_URL",
-              "value": "={{ $json.musicMeta.playUrl }}",
+              "value": "={{ $json.webVideoUrl }}",
               "type": "string"
             },
             {
               "id": "d32690dc-0a81-4cd3-83f1-c76579fbcbaa",
               "name": "sharecount",
-              "value": "={{ $json.shareCount }}",
+              "value": "={{ $json.posts.shares }}",
               "type": "number"
             },
             {
               "id": "0c6099a6-c6af-496b-b021-6d20a761eeeb",
-              "name": "playcount",
-              "value": "={{ $json.playCount }}",
+              "name": "playCount",
+              "value": "={{ $json.posts.views }}",
               "type": "number"
             },
             {
               "id": "cf786b2e-d5dc-428d-894b-ffc2eaab4496",
               "name": "commentcount",
-              "value": "={{ $json.commentCount }}",
+              "value": "={{ $json.posts.comments }}",
               "type": "number"
             },
             {
               "id": "36c66e49-50d1-4652-9cd2-51dc478b4a5e",
               "name": "hashtags",
-              "value": "={{ $json.hashtags.map(h => h.name).join(\", \") }}",
+              "value": "={{ $json.posts.hashtags }}",
+              "type": "string"
+            },
+            {
+              "id": "21c3a725-7627-4ebc-bddf-a978c83046f1",
+              "name": "timestamps",
+              "value": "={{ $json.posts.timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "f891208e-5d9b-4ced-8fcb-61209792ee59",
+              "name": "post_id",
+              "value": "={{ $json.posts.post_id }}",
               "type": "string"
             }
           ]
@@ -311,10 +285,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        432,
-        -96
+        800,
+        -144
       ],
-      "id": "e1688c4f-1951-4d23-8872-42fcf936380d",
+      "id": "2a9a1209-29bc-45d5-a083-c4cb68f538fd",
       "name": "Edit Fields1"
     },
     {
@@ -323,19 +297,19 @@
           "string": [
             {
               "name": "username",
-              "value": "chhaseeb099"
+              "value": "realtogi.ae"
             }
           ]
         },
         "options": {}
       },
-      "id": "3da0cd56-e7bc-4cd2-be94-56d32665c10d",
+      "id": "5cbec037-9cff-49f7-b161-87af5d6593ba",
       "name": "Set Username",
       "type": "n8n-nodes-base.set",
       "typeVersion": 1,
       "position": [
-        -208,
-        32
+        -96,
+        48
       ]
     },
     {
@@ -363,7 +337,9 @@
             "shares": "={{ $json.sharecount }}",
             "comments": "={{ $json.commentcount }}",
             "hashtags": "={{ $json.hashtags }}",
-            "plays": "={{ $json.playcount }}"
+            "plays": "={{ $json.playCount }}",
+            "timestamps": "={{ $json.timestamps }}",
+            "post_id": "={{ $json.post_id }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -420,6 +396,26 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamps",
+              "displayName": "timestamps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "post_id",
+              "displayName": "post_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -430,17 +426,59 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        624,
-        -96
+        992,
+        -144
       ],
-      "id": "6828193d-75ce-480c-b16a-6a3a5689c1c3",
-      "name": "Append row",
+      "id": "276e9cee-ac4d-42c1-a174-aeaabcc4127e",
+      "name": "Append row Posts",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "OgCXWRjMaFRpbA9d",
-          "name": "Google Sheets account 2"
+          "id": "mSvz42GEjUXe0RdR",
+          "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "url": "=https://470d24fcefd0.ngrok-free.app/profile\n",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "={{ $json.username }}"
+            },
+            {
+              "name": "full_details",
+              "value": "=true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        112,
+        48
+      ],
+      "id": "4604b471-1550-48d4-8ade-8e58d504dbef",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "posts",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -144
+      ],
+      "id": "d1415619-e839-43e7-8bb1-b885108c0bd0",
+      "name": "Split Out"
     }
   ],
   "pinData": {},
@@ -450,22 +488,6 @@
         [
           {
             "node": "Set Username",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Run an Actor and get dataset": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Filter",
             "type": "main",
             "index": 0
           }
@@ -509,7 +531,7 @@
       "main": [
         [
           {
-            "node": "Append row",
+            "node": "Append row Posts",
             "type": "main",
             "index": 0
           }
@@ -520,11 +542,43 @@
       "main": [
         [
           {
-            "node": "Run an Actor and get dataset",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row Posts": {
+      "main": [
+        []
       ]
     }
   },
@@ -532,11 +586,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7b5a8d41-a937-4842-848b-36861c31e6f1",
+  "versionId": "4ddf1428-34ac-42e2-bdde-06a2c30ba0cd",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "81a6c95a78938d92ac1128d7693a5a936304b25ccb5aec4970e5b81b791ffcd0"
+    "instanceId": "a1add8110bf3b6d0d87268bbb21fe5fab6910fcae023299dc7bb0616a3e3fac3"
   },
-  "id": "s0OjVWfkX7Je7VCx",
+  "id": "q6GDa5y9j2DxfJog",
   "tags": []
 }
